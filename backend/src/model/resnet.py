@@ -17,4 +17,4 @@ def create_resnet(n_classes: int = 2, model_name: str = 'resnet18', load_pretrai
 
     in_features = model.fc.in_features
     model.fc = nn.Linear(in_features, n_classes)
-    return model  
+    return model      
