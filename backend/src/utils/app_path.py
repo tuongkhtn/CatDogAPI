@@ -5,6 +5,10 @@ class AppPath:
     
     SOURCE_DIR = ROOT_DIR / 'src'
     
+    CONFIG_DIR = ROOT_DIR / 'config'
+    SERVE_CONFIG_DIR = CONFIG_DIR / 'serve_config'
+    DATA_CONFIG = CONFIG_DIR / 'data_config'
+    
     DATA_DIR = ROOT_DIR / 'data_source'
     CATDOG_RAW_DIR = DATA_DIR / 'catdog_raw'
     COLLECTED_DATA_DIR = DATA_DIR / 'collected'
