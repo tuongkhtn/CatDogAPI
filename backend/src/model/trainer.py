@@ -49,7 +49,7 @@ class Trainer:
         self.batch_size = batch_size
         self.mlflow_log_params = mlflow_log_params
         self.mlflow_log_tags = mlflow_log_tags
-        self.device = self.device
+        self.device = device
         self.best_model_metric = best_model_metric
         self.verbose = verbose
         
@@ -92,8 +92,8 @@ class Trainer:
                     
                     running_loss += loss.item()
                     _, predicted = torch.max(outputs.data, dim=1)
-                    running_correct += (predicted == labels).sum().item()
-                    running_totals += labels.size(0)
+                    running_corrects += (predicted == labels).sum().item()
+                    running_total += labels.size(0)
                     
                 epoch_loss = running_loss / len(train_loader)
                 epoch_acc = running_corrects / running_total
@@ -151,8 +151,8 @@ class Trainer:
         val_loss = running_loss / len(val_loader)
         val_acc = running_corrects / running_total
         
-        mlflow.log_metric("val_loss", f"{val_loss:.4f}", epoch=epoch)
-        mlflow.log_metric("val_acc", f"{val_acc:.4f}", epoch=epoch)
+        mlflow.log_metric("val_loss", f"{val_loss:.4f}", step=epoch)
+        mlflow.log_metric("val_acc", f"{val_acc:.4f}", step=epoch)
         
         return val_loss, val_acc
             
