@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
 import os
 import ast
 from PIL import Image
@@ -9,9 +13,7 @@ from torchvision import transforms
 import mlflow
 from mlflow.tracking import MlflowClient
 
-from utils.app_path import AppPath
-from utils.logger import Logger
-from utils.utils import save_cache
+from utils import AppPath, Logger, save_cache
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -88,11 +90,11 @@ class Predictor:
             
             run_info = client.get_run(model_mv.run_id)
             
-            self.id2class = ast.literal_eval(run_info.data.tags['id2class'])
-            self.class2id = ast.literal_eval(run_info.data.tags['class2id'])
-            self.mean = ast.literal_eval(run_info.data.tags['mean'])
-            self.std = ast.literal_eval(run_info.data.tags['std'])
-            self.img_size = ast.literal_eval(run_info.data.tags['img_size'])
+            self.id2class = ast.literal_eval(run_info.data.tags['id2label'])
+            self.class2id = ast.literal_eval(run_info.data.tags['label2id'])
+            self.mean = ast.literal_eval(run_info.data.params['image_mean'])
+            self.std = ast.literal_eval(run_info.data.params['image_std'])
+            self.img_size = ast.literal_eval(run_info.data.params['image_size'])
             self.loaded_model = mlflow.pytorch.load_model(model_mv.source, map_location=self.device)
         
         except Exception as e:
