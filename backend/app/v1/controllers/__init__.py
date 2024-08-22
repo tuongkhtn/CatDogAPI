@@ -1,0 +1,1 @@
+from .catdog_predictor import Predictor

@@ -1,8 +1,12 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+
 import os
 from fastapi import APIRouter
 from fastapi import UploadFile, File
 
-from controllers.catdog_predictor import Predictor
+from controllers import Predictor
 from schemas.classification import PredictionResponse
 
 from dotenv import load_dotenv

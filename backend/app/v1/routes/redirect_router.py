@@ -5,4 +5,4 @@ router = APIRouter()
 
 @router.get('/')
 async def redirect_to_docs():
-    return RedirectResponse('http://127.0.0.1/docs')
+    return RedirectResponse('http://localhost:5000/docs')

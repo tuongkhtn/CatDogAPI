@@ -5,10 +5,10 @@ from v1.routes import v1_router, redirect_router
 app = FastAPI()
 
 app.add_middleware(CORSMiddleware,
-                   allow_origins=origins,
+                   allow_origins=['*'],
                    allow_credentials=True,
-                   allow_method=['*'],
-                   allow_header=['*'])
+                   allow_methods=['*'],
+                   allow_headers=['*'])
 app.add_middleware(LogProcessAndTime)
 
 app.include_router(v1_router, prefix='/v1', tags=['v1_router'])

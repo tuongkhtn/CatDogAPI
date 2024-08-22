@@ -29,7 +29,7 @@ class Predictor:
         self.load_model()
         self.create_transform()
         
-    def predict(self, image, image_name):
+    async def predict(self, image, image_name):
         pil_img = Image.open(image)
         LOGGER.save_requests(pil_img, image_name)
         
@@ -37,7 +37,7 @@ class Predictor:
             pil_img = pil_img.convert('RGB')
         
         transformed_img = self.transforms_(pil_img).unsqueeze(0)
-        output = self.model_inference(transformed_img)
+        output = await self.model_inference(transformed_img)
         probs, best_prob, pred_id, pred_class = self.output2pred(output)
         
         LOGGER.log_model(self.model_name, self.model_alias)
@@ -71,7 +71,7 @@ class Predictor:
             transforms.Normalize(mean=self.mean, std=self.std)
         ])
         
-    def model_inference(self, input):
+    async def model_inference(self, input):
         input = input.to(self.device)
         with torch.no_grad():
             output = self.loaded_model(input).cpu()

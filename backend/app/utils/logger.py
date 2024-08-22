@@ -1,7 +1,10 @@
 import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent))
+
 import logging
 from logging.handlers import RotatingFileHandler
-from app_path import AppPath
+from .app_path import AppPath
 
 class Logger:
     def __init__(self, log_name="", log_level=logging.INFO, log_file=None) -> None:
@@ -11,7 +14,7 @@ class Logger:
     def get_logger(self, log_level, log_file):
         self.log.setLevel(log_level)
         self._init_formatter()
-        if log_file:
+        if log_file is None:
             self._add_stream_handler()
         else:
             self._add_file_handler(AppPath.LOG_DIR / log_file)
@@ -26,7 +29,7 @@ class Logger:
         stream_handler.setFormatter(self.formatter)
         self.log.addHandler(stream_handler)
     
-    def _add_find_handler(self, log_file):
+    def _add_file_handler(self, log_file):
         find_handler = RotatingFileHandler(log_file, maxBytes=10000, backupCount=10)
         find_handler.setFormatter(self.formatter)
         self.log.addHandler(find_handler)

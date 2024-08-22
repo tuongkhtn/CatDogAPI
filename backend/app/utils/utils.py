@@ -1,5 +1,5 @@
 import os
-from app_path import AppPath
+from .app_path import AppPath
 
 def save_cache(image_name, image_path, predicted_name, predicted_alias, probs, best_prob, pred_id, pred_class):
     cache_path = f'{AppPath.CACHE_DIR}/predicted_cache.csv'
