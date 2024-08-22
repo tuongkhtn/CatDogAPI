@@ -58,18 +58,18 @@ if __name__ == '__main__':
     
     run_id = best_run.info.run_id
     model_uri = f'runs:/{run_id}/model'
-    mv = client.create_model_version(name=model_name, model_uri=model_uri, run_id=run_id)
+    mv = client.create_model_version(name=model_name, source=model_uri, run_id=run_id)
     LOGGER.log.info(f'Registered Model: {model_name}, version: {mv.version}')
     
     client.set_registered_model_alias(name=model_name, alias=args.model_alias, version=mv.version)
     
     serve_config = BaseServeConfig(config_name=args.config_name, model_name=model_name, model_alias=args.model_alias)
     
-    path_save_cfg = AppPath.SERVE_CONFIG_DIR / f'{args.config_name}.json'
-    with open(path_save_cfg, 'w+') as f:
-        json.dump(asdict(serve_config), f, indent=4)
+    # path_save_cfg = AppPath.SERVE_CONFIG_DIR / f'{args.config_name}.json'
+    # with open(path_save_cfg, 'w+') as f:
+    #     json.dump(asdict(serve_config), f, indent=4)
     
-    LOGGER.log.info(f'Config saved to {args.config_name}.json')
+    # LOGGER.log.info(f'Config saved to {args.config_name}.json')
     
     LOGGER.log.info(f'Model {model_name} registered with alias {args.model_alias} and version {mv.version}')
     LOGGER.log.info('Model Registry completed')
