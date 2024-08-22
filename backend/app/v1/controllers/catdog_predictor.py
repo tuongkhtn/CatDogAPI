@@ -26,18 +26,18 @@ class Predictor:
         self.model_name = model_name
         self.model_alias = model_alias
         self.device = device
-        self.create_transform()
         self.load_model()
+        self.create_transform()
         
-    async def predict(self, image, image_name):
+    def predict(self, image, image_name):
         pil_img = Image.open(image)
         LOGGER.save_requests(pil_img, image_name)
         
         if pil_img.mode == 'RGBA':
             pil_img = pil_img.convert('RGB')
         
-        transformed_img = self.tranforms_(pil_img)
-        output = await self.model_inference(transformed_img)
+        transformed_img = self.transforms_(pil_img).unsqueeze(0)
+        output = self.model_inference(transformed_img)
         probs, best_prob, pred_id, pred_class = self.output2pred(output)
         
         LOGGER.log_model(self.model_name, self.model_alias)
@@ -71,7 +71,7 @@ class Predictor:
             transforms.Normalize(mean=self.mean, std=self.std)
         ])
         
-    async def model_inference(self, input):
+    def model_inference(self, input):
         input = input.to(self.device)
         with torch.no_grad():
             output = self.loaded_model(input).cpu()
@@ -108,4 +108,4 @@ class Predictor:
         pred_id = torch.max(probabilities, 1)[1].item()
         pred_class = self.id2class[pred_id]
         return probabilities.squeeze().tolist(), round(best_prob, 6), pred_id, pred_class
-            
+
