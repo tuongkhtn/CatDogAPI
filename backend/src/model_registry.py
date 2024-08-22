@@ -67,7 +67,7 @@ if __name__ == '__main__':
     
     # path_save_cfg = AppPath.SERVE_CONFIG_DIR / f'{args.config_name}.json'
     # with open(path_save_cfg, 'w+') as f:
-    #     json.dump(asdict(serve_config), f, indent=4)
+    #     json.dump(asdict(serve_config), f, indent=4
     
     # LOGGER.log.info(f'Config saved to {args.config_name}.json')
     
