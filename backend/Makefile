@@ -5,8 +5,7 @@ mlflow_down:
 	docker compose -f ./docker/mlflow/compose.yml down
 
 serving_up:
-	MODEL_NAME=${model_name} MODEL_ALIAS=${model_alias} PORT=${port} DEVICE=cpu docker compose -f ./docker/model_serving/docker-compose.yml up -d
-
+	set "MODEL_NAME=$(model_name)" && set "MODEL_ALIAS=$(model_alias)" && set "DEVICE=cpu" && docker compose -f ./docker/model_serving/compose.yml up -d
 
 serving_down:
 	set MODEL_NAME="" && set MODEL_ALIAS="" && set DEVICE="" && docker compose -f ./docker/model_serving/compose.yml down
