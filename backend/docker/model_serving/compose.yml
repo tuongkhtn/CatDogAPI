@@ -19,7 +19,7 @@ services:
         source: ../../app/logs
         target: /backend/app/logs
     ports:
-      - "5000:5000"
+      - "${PORT}:5000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     entrypoint: ["python", "server.py"]

@@ -37,7 +37,7 @@ python src/model_registry.py --best_metric val_loss --model_alias Production --c
 Retrieve model stored in mlflow server from "model_name" and "model_alias" then deploy to API
 
 ```bash
-make model_name=resnet_18 model_alias=Production serving_up
+make model_name=resnet_18 model_alias=Production port=5000 serving_up
 ```
 
 ### 2.3 Add more data and re-train model
@@ -66,7 +66,7 @@ Restart the container to pull model which have "model_config" == "add_collect" f
 
 ```bash
 make serving_down
-make model_name=resnet_18 model_alias=Challenger serving_up
+make model_name=resnet_18 model_alias=Challenger port=5000 serving_up
 ```
 
 ## 3. Turn on/off the system
