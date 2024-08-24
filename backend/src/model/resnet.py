@@ -14,7 +14,13 @@ def create_resnet(n_classes: int = 2, model_name: str = 'resnet_18', load_pretra
             model = models.resnet34()
     else:
         raise ValueError(f'Invalid model name: [resnet_18, resnet_34]')
+    
+    if load_pretrained:
+        backbone = nn.Sequential(*list(model.children())[:-1])
+        
+        for param in backbone.parameters():
+            param.requires_grad = False
 
     in_features = model.fc.in_features
     model.fc = nn.Linear(in_features, n_classes)
-    return model      
+    return model

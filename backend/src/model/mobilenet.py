@@ -14,6 +14,12 @@ def create_mobilenet(n_classes: int, model_name: str = 'mobilenet_v2', load_pret
             model = mobilenet_v3_small()
     else:
         raise ValueError('Invalid model name. [mobilenet_v2, mobilenet_v3_small]')
+    
+    if load_pretrained:
+        backbone = nn.Sequential(*list(model.children())[:-1])
+        
+        for param in backbone.parameters():
+            param.requires_grad = False
 
     in_features = model.classifier[-1].in_features
     model.classifier[-1] = nn.Linear(in_features, n_classes)

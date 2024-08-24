@@ -32,6 +32,8 @@ if __name__ == '__main__':
                         help='Device to be used for training')
     parser.add_argument('--seed', type=int, default=42,
                         help='Seed for reproducibility')
+    parser.add_argument('--load_pretrained', action='store_true',
+                        help='Using pretrained model for training')
     args = parser.parse_args()
     seed_everything(args.seed)
     
@@ -59,9 +61,9 @@ if __name__ == '__main__':
     
     model_prefix = args.model_name.split('_')[0]
     if model_prefix == 'resnet':
-        model = create_resnet(n_classes=CatDogData.n_classes, model_name=args.model_name)
+        model = create_resnet(n_classes=CatDogData.n_classes, model_name=args.model_name, load_pretrained=args.load_pretrained)
     elif model_prefix == 'mobilenet':
-        model = create_mobilenet(n_classes=CatDogData.n_classes, model_name=args.model_name)
+        model = create_mobilenet(n_classes=CatDogData.n_classes, model_name=args.model_name, load_pretrained=args.load_pretrained)
     
     mlflow_log_tags = {
         'data_version': args.data_version,
